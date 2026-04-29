@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products — Sari-Sari Box</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    :root{
+      --blue:#3E5CC5;--mid:#667CCC;--light:#A9B9ED;--pale:#EEF1FA;
+      --white:#ffffff;--dark:#1a2550;--yellow:#FFD84D;--coral:#FF7B5A;--green:#4ECBA0;--ink:#1E2D6B;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Nunito',sans-serif;color:var(--ink);background:var(--white);overflow-x:hidden;}
+    h1,h2,h3,h4{font-family:'Syne',sans-serif;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:900;background:var(--white);border-bottom:2px solid var(--pale);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+    .nav-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:.5rem;}
+    .nav-brand .box-icon{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--yellow);font-size:1rem;transform:rotate(-5deg);}
+    .nav-links{display:flex;gap:.3rem;list-style:none;}
+    .nav-links a{font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);text-decoration:none;padding:.4rem .9rem;border-radius:20px;transition:all .2s;}
+    .nav-links a:hover,.nav-links a.active{background:var(--pale);color:var(--blue);}
+    .nav-cta{background:var(--blue);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;border:none;padding:.55rem 1.3rem;border-radius:30px;text-decoration:none;transition:all .22s;display:flex;align-items:center;gap:.4rem;}
+    .nav-cta:hover{background:var(--dark);}
+    .nav-toggle{display:none;background:none;border:none;font-size:1.5rem;color:var(--ink);cursor:pointer;}
+    @media(max-width:768px){.nav-links,.nav-cta-wrap{display:none!important;}.nav-toggle{display:flex;}}
+
+    /* PAGE HERO */
+    .page-hero{min-height:55vh;padding-top:64px;background:linear-gradient(135deg,var(--blue) 0%,var(--mid) 60%,#8A9EE0 100%);display:flex;align-items:flex-end;padding-bottom:4rem;position:relative;overflow:hidden;}
+    .page-hero::before{content:'';position:absolute;right:-10%;top:-30%;width:55%;height:130%;border-radius:50%;background:rgba(255,255,255,.06);}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.1) 1.5px,transparent 1.5px);background-size:32px 32px;pointer-events:none;}
+    .page-hero-inner{max-width:1200px;margin:0 auto;padding:0 2rem;position:relative;z-index:2;}
+    .breadcrumb{display:flex;align-items:center;gap:.4rem;font-size:.74rem;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.4rem;}
+    .breadcrumb a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;}
+    .breadcrumb a:hover{color:var(--yellow);}
+    .page-eyebrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);background:rgba(255,216,77,.15);border:1px solid rgba(255,216,77,.3);padding:.35rem .9rem;border-radius:20px;margin-bottom:1.4rem;}
+    .page-hero h1{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:800;color:var(--white);line-height:1.1;margin-bottom:1rem;}
+    .page-hero h1 em{font-style:italic;color:var(--yellow);}
+    .page-hero p{font-size:1rem;color:rgba(255,255,255,.65);max-width:520px;line-height:1.75;}
+
+    /* SHARED */
+    section{padding:5rem 0;}
+    .container{max-width:1200px;margin:0 auto;padding:0 2rem;}
+    .sec-label{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem;}
+    .sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:var(--ink);line-height:1.15;}
+    .sec-title em{font-style:italic;color:var(--blue);}
+
+    /* CATEGORY TABS */
+    .cat-tabs{background:var(--white);padding:2.5rem 0 0;border-bottom:2px solid var(--pale);}
+    .tabs-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;gap:.5rem;overflow-x:auto;padding-bottom:0;}
+    .cat-tab{
+      background:none;border:none;padding:.75rem 1.3rem;border-radius:14px 14px 0 0;
+      font-family:'Syne',sans-serif;font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;
+      color:#7a8ab0;cursor:pointer;transition:all .2s;white-space:nowrap;
+      border-bottom:3px solid transparent;
+    }
+    .cat-tab:hover{color:var(--blue);background:var(--pale);}
+    .cat-tab.active{color:var(--blue);border-bottom-color:var(--blue);background:var(--pale);}
+
+    /* CATEGORY SECTION */
+    .cat-section{padding:4.5rem 0;border-bottom:2px solid var(--pale);}
+    .cat-section:last-of-type{border-bottom:none;}
+    .cat-header{display:flex;align-items:center;gap:1rem;margin-bottom:3rem;}
+    .cat-icon{
+      width:60px;height:60px;border-radius:18px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.6rem;flex-shrink:0;
+    }
+    .cat-icon.snacks{background:#FFF3DC;color:#E07B00;}
+    .cat-icon.pasalubong{background:#FFEEF3;color:#D4326A;}
+    .cat-icon.sweet{background:#FFF0FD;color:#C044B8;}
+    .cat-icon.kusina{background:#EDFFF7;color:#1A9A6B;}
+    .cat-icon.wellness{background:#EFF4FF;color:var(--blue);}
+    .cat-title-wrap h2{font-size:1.6rem;font-weight:800;color:var(--ink);margin-bottom:.2rem;}
+    .cat-title-wrap p{font-size:.88rem;color:#7a8ab0;}
+    .cat-count{margin-left:auto;background:var(--pale);color:var(--blue);font-size:.75rem;font-weight:700;padding:.3rem .8rem;border-radius:20px;white-space:nowrap;}
+
+    /* PRODUCT GRID */
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.2rem;}
+    .product-card{
+      background:var(--white);border:2px solid var(--pale);border-radius:20px;
+      overflow:hidden;transition:all .25s;cursor:pointer;
+      position:relative;
+    }
+    .product-card:hover{border-color:var(--mid);transform:translateY(-4px);box-shadow:0 14px 36px rgba(62,92,197,.12);}
+    .product-img{
+      height:140px;display:flex;align-items:center;justify-content:center;
+      font-size:3.5rem;background:var(--pale);
+      transition:transform .3s;
+    }
+    .product-card:hover .product-img{transform:scale(1.08);}
+    .product-info{padding:1rem;}
+    .product-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:.25rem;}
+    .product-desc{font-size:.78rem;color:#7a8ab0;line-height:1.6;margin-bottom:.7rem;}
+    .product-tag{
+      font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+      background:var(--pale);color:var(--blue);padding:.2rem .55rem;border-radius:8px;display:inline-block;
+    }
+    .product-badge{
+      position:absolute;top:.75rem;right:.75rem;
+      font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+      padding:.22rem .6rem;border-radius:20px;
+    }
+    .badge-fave{background:#FFF3DC;color:#E07B00;}
+    .badge-new{background:#EDFFF7;color:#1A9A6B;}
+
+    /* SUBSCRIBE SECTION */
+    .subscribe-section{background:var(--pale);padding:5rem 0;scroll-margin-top:80px;}
+    .sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:3.5rem;}
+    @media(max-width:900px){.sub-grid{grid-template-columns:1fr 1fr;}}
+    @media(max-width:576px){.sub-grid{grid-template-columns:1fr;}}
+    .sub-plan{background:var(--white);border-radius:24px;border:2px solid var(--pale);padding:2.2rem 2rem;position:relative;overflow:hidden;transition:all .28s;}
+    .sub-plan.featured{background:var(--blue);color:var(--white);border-color:var(--blue);transform:scale(1.04);box-shadow:0 24px 60px rgba(62,92,197,.3);}
+    .sub-plan:hover:not(.featured){border-color:var(--mid);transform:translateY(-4px);box-shadow:0 16px 40px rgba(62,92,197,.1);}
+    .plan-badge{position:absolute;top:1.4rem;right:1.4rem;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--yellow);color:var(--ink);padding:.25rem .65rem;border-radius:20px;}
+    .plan-emoji{font-size:2.5rem;margin-bottom:.9rem;display:block;}
+    .sub-plan h3{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:.4rem;}
+    .sub-plan .plan-sub{font-size:.82rem;opacity:.6;margin-bottom:1.4rem;}
+    .plan-price{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:var(--blue);margin-bottom:.4rem;line-height:1;}
+    .sub-plan.featured .plan-price{color:var(--yellow);}
+    .plan-period{font-size:.78rem;opacity:.55;margin-bottom:1.6rem;}
+    .plan-features{list-style:none;padding:0;margin:0 0 1.8rem;display:flex;flex-direction:column;gap:.7rem;}
+    .plan-features li{display:flex;align-items:center;gap:.6rem;font-size:.86rem;font-weight:600;}
+    .plan-features li i{color:var(--blue);font-size:1rem;}
+    .sub-plan.featured .plan-features li i{color:var(--yellow);}
+    .plan-features li.muted{opacity:.45;}
+    .plan-btn{display:block;text-align:center;background:var(--blue);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;padding:.8rem;border-radius:30px;text-decoration:none;transition:all .22s;border:none;cursor:pointer;width:100%;}
+    .plan-btn:hover{background:var(--dark);}
+    .sub-plan.featured .plan-btn{background:var(--yellow);color:var(--ink);}
+    .sub-plan.featured .plan-btn:hover{background:#ffe066;}
+
+    /* FOOTER */
+    footer{background:var(--dark);color:rgba(255,255,255,.55);padding:4rem 0 2rem;}
+    .footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;max-width:1200px;margin:0 auto;padding:0 2rem;}
+    @media(max-width:900px){.footer-inner{grid-template-columns:1fr 1fr;}}
+    @media(max-width:576px){.footer-inner{grid-template-columns:1fr;}}
+    .footer-brand a{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:.5rem;margin-bottom:.9rem;}
+    .footer-brand a .ficon{width:34px;height:34px;background:var(--blue);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--yellow);font-size:.9rem;transform:rotate(-5deg);}
+    .footer-brand p{font-size:.86rem;line-height:1.7;max-width:220px;margin-bottom:1.2rem;}
+    .footer-socials{display:flex;gap:.5rem;}
+    .footer-social{width:34px;height:34px;background:rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:.9rem;text-decoration:none;transition:all .2s;}
+    .footer-social:hover{background:var(--blue);color:var(--white);}
+    .footer-col h5{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:1rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;}
+    .footer-col ul a{font-size:.86rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .18s;}
+    .footer-col ul a:hover{color:var(--white);}
+    .footer-divider{border-top:1px solid rgba(255,255,255,.07);margin-top:3rem;padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;max-width:1200px;margin-left:auto;margin-right:auto;padding-left:2rem;padding-right:2rem;font-size:.78rem;color:rgba(255,255,255,.22);}
+
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+    .reveal.visible{opacity:1;transform:none;}
+    .rd1{transition-delay:.08s;}.rd2{transition-delay:.16s;}.rd3{transition-delay:.24s;}.rd4{transition-delay:.32s;}.rd5{transition-delay:.4s;}.rd6{transition-delay:.48s;}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="box-icon"><i class="bi bi-box2-heart-fill"></i></div>
+    Sari-Sari Box
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-cta-wrap">
+    <a href="#subscribe" class="nav-cta"><i class="bi bi-bag-heart"></i> Subscribe Now</a>
+  </div>
+  <button class="nav-toggle"><i class="bi bi-list"></i></button>
+</nav>
+
+<section class="page-hero">
+  <div class="hero-dots"></div>
+  <div class="page-hero-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span style="color:rgba(255,255,255,.2);margin:0 .2rem;"><i class="bi bi-chevron-right" style="font-size:.62rem;"></i></span>
+      <span style="color:var(--yellow);">Products</span>
+    </div>
+    <div class="page-eyebrow"><i class="bi bi-boxes"></i> What's Inside</div>
+    <h1>Every box is a <em>fiesta</em><br>of flavors.</h1>
+    <p>From crispy Chippy to soothing herbal teas — discover the authentic Filipino products we pack with love in every Sari-Sari Box.</p>
+  </div>
+</section>
+
+<!-- TABS -->
+<div class="cat-tabs">
+  <div class="tabs-inner">
+    <button class="cat-tab active" onclick="scrollTo('snacks')"><i class="bi bi-bag-fill"></i> Pinoy Snacks</button>
+    <button class="cat-tab" onclick="scrollTo('pasalubong')"><i class="bi bi-gift-fill"></i> Pasalubong</button>
+    <button class="cat-tab" onclick="scrollTo('sweet')"><i class="bi bi-emoji-smile-fill"></i> Sweet Tooth</button>
+    <button class="cat-tab" onclick="scrollTo('kusina')"><i class="bi bi-fire"></i> Kusina</button>
+    <button class="cat-tab" onclick="scrollTo('wellness')"><i class="bi bi-heart-pulse-fill"></i> Wellness</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- PINOY SNACKS -->
+  <div class="cat-section" id="snacks">
+    <div class="cat-header reveal">
+      <div class="cat-icon snacks">🍟</div>
+      <div class="cat-title-wrap">
+        <h2>Pinoy Snacks</h2>
+        <p>The OG chika snacks — crispy, savory, and totally addicting</p>
+      </div>
+      <span class="cat-count">8+ items</span>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal rd1">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🌽</div>
+        <div class="product-info">
+          <div class="product-name">Chippy</div>
+          <div class="product-desc">The classic corn chip everyone grew up with. Barbecue or chili cheese — you can never pick just one.</div>
+          <span class="product-tag">Corn Chips</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-img">🧄</div>
+        <div class="product-info">
+          <div class="product-name">Boy Bawang</div>
+          <div class="product-desc">Crunchy cornick soaked in garlic flavor. The ultimate ulam substitute for true Pinoy snackers.</div>
+          <span class="product-tag">Cornick</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd3">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🥜</div>
+        <div class="product-info">
+          <div class="product-name">Dingdong</div>
+          <div class="product-desc">A mix of nuts, corn, and crackers. The ultimate tambayan snack that goes great with anything.</div>
+          <span class="product-tag">Mixed Nuts</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd4">
+        <div class="product-img">🥔</div>
+        <div class="product-info">
+          <div class="product-name">Piattos</div>
+          <div class="product-desc">Wavy potato crisps in sour cream, cheese, and more. Piattos hits different — every single time.</div>
+          <span class="product-tag">Potato Chips</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd5">
+        <div class="product-img">🌶️</div>
+        <div class="product-info">
+          <div class="product-name">Mang Juan</div>
+          <div class="product-desc">Chicharon-inspired rings with that spicy, savory kick. A true Pinoy classic for every craving.</div>
+          <span class="product-tag">Chicharon Bits</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd6">
+        <div class="product-img">🍜</div>
+        <div class="product-info">
+          <div class="product-name">Pancit Canton</div>
+          <div class="product-desc">The nostalgic merienda in a cup. Kalamansi flavor, spicy, and chili-lime — pick your poison!</div>
+          <span class="product-tag">Instant Noodles</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd1">
+        <div class="product-img">🍪</div>
+        <div class="product-info">
+          <div class="product-name">Skyflakes</div>
+          <div class="product-desc">The simple, satisfying cracker that's perfect with cheese, peanut butter, or just on its own.</div>
+          <span class="product-tag">Crackers</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-img">✨</div>
+        <div class="product-info">
+          <div class="product-name">+ More Surprises</div>
+          <div class="product-desc">Every box includes surprise snack additions handpicked by Geanlijah. You'll always discover something new!</div>
+          <span class="product-tag">Curated Picks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASALUBONG -->
+  <div class="cat-section" id="pasalubong">
+    <div class="cat-header reveal">
+      <div class="cat-icon pasalubong">🎁</div>
+      <div class="cat-title-wrap">
+        <h2>Pasalubong Choices</h2>
+        <p>Provincial delicacies and regional treasures to gift or enjoy yourself</p>
+      </div>
+      <span class="cat-count">5+ items</span>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal rd1">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🥭</div>
+        <div class="product-info">
+          <div class="product-name">Dried Mangoes</div>
+          <div class="product-desc">Cebu's finest — sweet, chewy dried mango strips that taste like sunshine. A must-have in every OFW padala.</div>
+          <span class="product-tag">Dried Fruit</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-img">🍓</div>
+        <div class="product-info">
+          <div class="product-name">Strawberry Jam</div>
+          <div class="product-desc">Sweet Baguio strawberry jam, sourced from the highlands. Perfect spread for pandesal mornings.</div>
+          <span class="product-tag">Bottled Jam</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd3">
+        <div class="product-img">💜</div>
+        <div class="product-info">
+          <div class="product-name">Ube Jam</div>
+          <div class="product-desc">Rich, creamy purple yam jam — the unmistakable Filipino flavor in a jar. The taste of home.</div>
+          <span class="product-tag">Bottled Jam</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd4">
+        <div class="product-badge badge-new">🌟 New</div>
+        <div class="product-img">🍬</div>
+        <div class="product-info">
+          <div class="product-name">Local Delicacies</div>
+          <div class="product-desc">Rotating regional finds — kakanin, polvoron, pastillas, and other Filipino delicacies that hit home.</div>
+          <span class="product-tag">Regional Pick</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd5">
+        <div class="product-img">🥥</div>
+        <div class="product-info">
+          <div class="product-name">Coconut Products</div>
+          <div class="product-desc">Virgin coconut oil, coconut sugar, and other premium coconut-based goods from Philippine farmers.</div>
+          <span class="product-tag">Local Produce</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SWEET TOOTH -->
+  <div class="cat-section" id="sweet">
+    <div class="cat-header reveal">
+      <div class="cat-icon sweet">🍭</div>
+      <div class="cat-title-wrap">
+        <h2>Sweet Tooth</h2>
+        <p>Candies, chocolates, and biscuits that take you straight back to childhood</p>
+      </div>
+      <span class="cat-count">6+ items</span>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal rd1">
+        <div class="product-img">🍬</div>
+        <div class="product-info">
+          <div class="product-name">XO Candy</div>
+          <div class="product-desc">The iconic Philippine chocolate-flavored candy. Unwrap one and suddenly you're 8 years old again.</div>
+          <span class="product-tag">Candy</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🍫</div>
+        <div class="product-info">
+          <div class="product-name">ChocNut</div>
+          <div class="product-desc">Peanut and chocolate wafer — the ultimate Pinoy sweet. One is never enough, and everyone knows it.</div>
+          <span class="product-tag">Chocolate</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd3">
+        <div class="product-img">☁️</div>
+        <div class="product-info">
+          <div class="product-name">Cloud 9</div>
+          <div class="product-desc">Crunchy wafer coated in milk chocolate and caramel. This bar has been a Filipino favorite for decades.</div>
+          <span class="product-tag">Chocolate Bar</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd4">
+        <div class="product-img">🍫</div>
+        <div class="product-info">
+          <div class="product-name">Flat Tops</div>
+          <div class="product-desc">The smooth, flat chocolate disk that melts in your mouth. Simple, satisfying, and purely nostalgic.</div>
+          <span class="product-tag">Chocolate</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd5">
+        <div class="product-img">🍭</div>
+        <div class="product-info">
+          <div class="product-name">Iced Gem Biscuits</div>
+          <div class="product-desc">Tiny biscuits topped with colorful pastel icing. The most adorable snack in the Philippines, hands down.</div>
+          <span class="product-tag">Biscuits</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd6">
+        <div class="product-badge badge-new">🌟 New</div>
+        <div class="product-img">🎀</div>
+        <div class="product-info">
+          <div class="product-name">Seasonal Treats</div>
+          <div class="product-desc">Monthly rotating sweets and candies — we find the best local sugar highs so you don't have to.</div>
+          <span class="product-tag">Seasonal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KUSINA -->
+  <div class="cat-section" id="kusina">
+    <div class="cat-header reveal">
+      <div class="cat-icon kusina">🍳</div>
+      <div class="cat-title-wrap">
+        <h2>Kusina Essentials</h2>
+        <p>The pantry staples that make Filipino cooking taste like home</p>
+      </div>
+      <span class="cat-count">5 items</span>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal rd1">
+        <div class="product-img">🫙</div>
+        <div class="product-info">
+          <div class="product-name">Silver Swan Soy</div>
+          <div class="product-desc">The gold standard of Filipino toyo. Every adobo, sinangag, and dip depends on this iconic bottle.</div>
+          <span class="product-tag">Condiment</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🥫</div>
+        <div class="product-info">
+          <div class="product-name">Mang Tomas</div>
+          <div class="product-desc">The beloved lechon sauce that makes everything better. No palabok, no lechon, no life without it.</div>
+          <span class="product-tag">Sauce</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd3">
+        <div class="product-img">🌶️</div>
+        <div class="product-info">
+          <div class="product-name">Mama Sita's Mix</div>
+          <div class="product-desc">Sinigang, kare-kare, caldereta — Mama Sita's seasoning mixes bring authentic Filipino cooking anywhere.</div>
+          <span class="product-tag">Seasoning Mix</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd4">
+        <div class="product-img">🫙</div>
+        <div class="product-info">
+          <div class="product-name">Datu Puti Vinegar</div>
+          <div class="product-desc">Sukang maasim for your paksiw, achara, and sawsawan. The tangy backbone of Filipino cuisine.</div>
+          <span class="product-tag">Condiment</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd5">
+        <div class="product-img">🍅</div>
+        <div class="product-info">
+          <div class="product-name">UFC Banana Ketchup</div>
+          <div class="product-desc">The uniquely Filipino ketchup made from bananas. Perfect for hotdog rice and everything fried.</div>
+          <span class="product-tag">Ketchup</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELLNESS -->
+  <div class="cat-section" id="wellness">
+    <div class="cat-header reveal">
+      <div class="cat-icon wellness">🌿</div>
+      <div class="cat-title-wrap">
+        <h2>Wellness</h2>
+        <p>Filipino self-care essentials and herbal finds for body and spirit</p>
+      </div>
+      <span class="cat-count">5+ items</span>
+    </div>
+    <div class="product-grid">
+      <div class="product-card reveal rd1">
+        <div class="product-badge badge-fave">❤️ Fan Fave</div>
+        <div class="product-img">🟢</div>
+        <div class="product-info">
+          <div class="product-name">Efficascent Oil</div>
+          <div class="product-desc">The iconic green oil that nanay swore by. Relieves muscle pain, headaches, and bad days with one rub.</div>
+          <span class="product-tag">Topical Relief</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd2">
+        <div class="product-img">🩹</div>
+        <div class="product-info">
+          <div class="product-name">Salonpas</div>
+          <div class="product-desc">The trusty medicated patch for aching muscles and joints. The OFW's best friend for long shifts.</div>
+          <span class="product-tag">Pain Relief</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd3">
+        <div class="product-img">🌸</div>
+        <div class="product-info">
+          <div class="product-name">Essential Oils</div>
+          <div class="product-desc">Relaxing and grounding essential oils — lavender, peppermint, and local botanical blends for calm.</div>
+          <span class="product-tag">Aromatherapy</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd4">
+        <div class="product-badge badge-new">🌟 New</div>
+        <div class="product-img">🍵</div>
+        <div class="product-info">
+          <div class="product-name">Herbal Teas</div>
+          <div class="product-desc">Salabat, pandan, sambong, and other traditional Filipino herbal teas brewed from local plants.</div>
+          <span class="product-tag">Herbal</span>
+        </div>
+      </div>
+      <div class="product-card reveal rd5">
+        <div class="product-img">🌿</div>
+        <div class="product-info">
+          <div class="product-name">Local Care Items</div>
+          <div class="product-desc">Rotating monthly wellness additions — skincare, supplements, and natural remedies from the Philippines.</div>
+          <span class="product-tag">Self-Care</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- SUBSCRIBE -->
+<section class="subscribe-section" id="subscribe">
+  <div class="container">
+    <div class="text-center reveal">
+      <div class="sec-label" style="justify-content:center;"><i class="bi bi-box2-heart"></i> Subscription Plans</div>
+      <h2 class="sec-title">Ready to <em>subscribe?</em></h2>
+      <p style="color:#5a6a9a;max-width:480px;margin:.8rem auto 0;font-size:.95rem;line-height:1.75;">Choose the plan that fits you best. Every box is a little taste of home.</p>
+    </div>
+    <div class="sub-grid">
+      <div class="sub-plan reveal rd1">
+        <span class="plan-emoji">🍟</span>
+        <h3>Kwento Box</h3>
+        <p class="plan-sub">Snacks for everyday Filipino moments</p>
+        <div class="plan-price">₱699</div>
+        <p class="plan-period">per month</p>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle-fill"></i> 10–12 snack items</li>
+          <li><i class="bi bi-check-circle-fill"></i> Chippy, Piattos & classics</li>
+          <li><i class="bi bi-check-circle-fill"></i> Free local shipping</li>
+          <li class="muted"><i class="bi bi-dash-circle"></i> Premium items</li>
+          <li class="muted"><i class="bi bi-dash-circle"></i> International shipping</li>
+        </ul>
+        <a href="contact.html" class="plan-btn">Get This Box</a>
+      </div>
+      <div class="sub-plan featured reveal rd2">
+        <div class="plan-badge">Most Popular</div>
+        <span class="plan-emoji">🎁</span>
+        <h3>Padala Box</h3>
+        <p class="plan-sub">The full Filipino experience for OFWs</p>
+        <div class="plan-price">₱1,299</div>
+        <p class="plan-period">per month</p>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle-fill"></i> 20+ curated items</li>
+          <li><i class="bi bi-check-circle-fill"></i> All 5 categories mixed</li>
+          <li><i class="bi bi-check-circle-fill"></i> OFW-ready gift packaging</li>
+          <li><i class="bi bi-check-circle-fill"></i> Free international shipping</li>
+          <li><i class="bi bi-check-circle-fill"></i> Personalized message card</li>
+        </ul>
+        <a href="contact.html" class="plan-btn">Get This Box</a>
+      </div>
+      <div class="sub-plan reveal rd3">
+        <span class="plan-emoji">🌿</span>
+        <h3>Malasakit Box</h3>
+        <p class="plan-sub">Wellness & specialty Filipino finds</p>
+        <div class="plan-price">₱899</div>
+        <p class="plan-period">per month</p>
+        <ul class="plan-features">
+          <li><i class="bi bi-check-circle-fill"></i> 12–15 wellness items</li>
+          <li><i class="bi bi-check-circle-fill"></i> Herbal teas, oils & care</li>
+          <li><i class="bi bi-check-circle-fill"></i> Free local shipping</li>
+          <li><i class="bi bi-check-circle-fill"></i> Kusina essentials add-on</li>
+          <li class="muted"><i class="bi bi-dash-circle"></i> International shipping</li>
+        </ul>
+        <a href="contact.html" class="plan-btn">Get This Box</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html"><div class="ficon"><i class="bi bi-box2-heart-fill"></i></div>Sari-Sari Box</a>
+      <p>Filipino happiness, one box at a time. Curated with love, shipped with pride.</p>
+      <div class="footer-socials">
+        <a href="mailto:geanlijahsgndy@gmail.com" class="footer-social"><i class="bi bi-envelope-fill"></i></a>
+        <a href="https://www.facebook.com/share/1Ae53G9GRJ/?mibextid=wwXIfr" class="footer-social"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/_giasgndy?igsh=OHEwYTNpbGVuOHhj&utm_source=qr" class="footer-social"><i class="bi bi-instagram"></i></a>
+ 
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Box Types</h5>
+      <ul>
+        <li><a href="#snacks">Pinoy Snacks</a></li>
+        <li><a href="#pasalubong">Pasalubong</a></li>
+        <li><a href="#sweet">Sweet Tooth</a></li>
+        <li><a href="#kusina">Kusina Picks</a></li>
+        <li><a href="#wellness">Wellness</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:geanlijahsgndy@gmail.com">geanlijahsgndy@gmail.com</a></li>
+        <li><a href="contact.html">Send a Message</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-divider">
+    <span>&copy; 2025 Sari-Sari Box. All rights reserved.</span>
+    <span>Made with 💛 for Filipinos everywhere</span>
+  </div>
+</footer>
+
+<script>
+  function scrollTo(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+  const observer = new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');observer.unobserve(el.target);}});},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
